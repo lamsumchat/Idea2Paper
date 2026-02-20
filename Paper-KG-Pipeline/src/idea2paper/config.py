@@ -719,3 +719,61 @@ class PipelineConfig:
         cast=int,
         cfg_path=["critic", "coach_max_tokens"],
     )
+
+    # ===================== Agentic Search 配置 =====================
+    AGENTIC_SEARCH_ENABLE = _get(
+        "I2P_AGENTIC_SEARCH_ENABLE",
+        False,
+        cast=bool,
+        cfg_path=["agentic_search", "enable"],
+    )
+    AGENTIC_SEARCH_SOURCES = _get(
+        "I2P_AGENTIC_SEARCH_SOURCES",
+        ["dblp", "semantic_scholar"],
+        cfg_path=["agentic_search", "sources"],
+    )
+    AGENTIC_SEARCH_MAX_ROUNDS = _get(
+        "I2P_AGENTIC_SEARCH_MAX_ROUNDS",
+        2,
+        cast=int,
+        cfg_path=["agentic_search", "max_rounds"],
+    )
+    AGENTIC_SEARCH_RESULTS_PER_ROUND = _get(
+        "I2P_AGENTIC_SEARCH_RESULTS_PER_ROUND",
+        10,
+        cast=int,
+        cfg_path=["agentic_search", "results_per_round"],
+    )
+    AGENTIC_SEARCH_FINAL_TOP_K = _get(
+        "I2P_AGENTIC_SEARCH_FINAL_TOP_K",
+        5,
+        cast=int,
+        cfg_path=["agentic_search", "final_top_k"],
+    )
+    AGENTIC_SEARCH_RELEVANCE_THRESHOLD = _get(
+        "I2P_AGENTIC_SEARCH_RELEVANCE_THRESHOLD",
+        0.6,
+        cast=float,
+        cfg_path=["agentic_search", "relevance_threshold"],
+    )
+    AGENTIC_SEARCH_RECALL_WEIGHT = _get(
+        "I2P_AGENTIC_SEARCH_RECALL_WEIGHT",
+        0.15,
+        cast=float,
+        cfg_path=["agentic_search", "recall_weight"],
+    )
+    AGENTIC_SEARCH_MAX_DYNAMIC_PATTERNS = _get(
+        "I2P_AGENTIC_SEARCH_MAX_DYNAMIC_PATTERNS",
+        3,
+        cast=int,
+        cfg_path=["agentic_search", "max_dynamic_patterns"],
+    )
+    AGENTIC_SEARCH_DYNAMIC_WEIGHT_CAP = _get(
+        "I2P_AGENTIC_SEARCH_DYNAMIC_WEIGHT_CAP",
+        0.6,
+        cast=float,
+        cfg_path=["agentic_search", "dynamic_weight_cap"],
+    )
+    AGENTIC_SEARCH_SEMANTIC_SCHOLAR_API_KEY = os.getenv(
+        "SEMANTIC_SCHOLAR_API_KEY", ""
+    )

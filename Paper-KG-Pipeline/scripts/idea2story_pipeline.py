@@ -507,6 +507,30 @@ def main():
         print("-" * 80)
         print(f"✅ 召回完成: Top-{len(recalled_patterns)} Patterns\n")
 
+        # Agentic Search: 自适应联网搜索补充 (可选)
+        agentic_search_meta = None
+        if PipelineConfig.AGENTIC_SEARCH_ENABLE:
+            try:
+                from idea2paper.agentic_search import AgenticSearchOrchestrator
+                existing_paper_ids = {p.get("paper_id") for p in papers if p.get("paper_id")}
+                orchestrator = AgenticSearchOrchestrator(
+                    user_idea=raw_user_idea,
+                    static_results=recalled_patterns,
+                    patterns=patterns,
+                    existing_paper_ids=existing_paper_ids,
+                    logger=logger,
+                )
+                agentic_result = orchestrator.run()
+                recalled_patterns = agentic_result["merged_patterns"]
+                agentic_search_meta = agentic_result.get("search_meta")
+                if logger:
+                    logger.log_event("agentic_search_done", agentic_search_meta or {})
+                print(f"✅ Agentic Search 完成: 最终 Top-{len(recalled_patterns)} Patterns\n")
+            except Exception as e:
+                print(f"⚠️  Agentic Search 失败，使用原始召回结果: {e}")
+                if logger:
+                    logger.log_event("agentic_search_failed", {"error": str(e)})
+
         # 运行 Pipeline（传递 user_idea 用于 Pattern 智能分类）
         pipeline = Idea2StoryPipeline(
             raw_user_idea,
@@ -557,7 +581,8 @@ def main():
                     'collision_detected': result['verification_result']['collision_detected'],
                     'max_similarity': result['verification_result']['max_similarity']
                 },
-                'idea_packaging': result.get('idea_packaging')
+                'idea_packaging': result.get('idea_packaging'),
+                'agentic_search': agentic_search_meta,
             }, f, ensure_ascii=False, indent=2)
 
         print(f"💾 完整结果已保存到: {full_result_file}")
