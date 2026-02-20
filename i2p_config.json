@@ -110,6 +110,18 @@
     "subdomain_taxonomy_path": "",
     "subdomain_taxonomy_stoplist_mode": "drop"
   },
+  "agentic_search": {
+    "__comment__": "Adaptive online search for CS/AI top-venue papers after static recall. Triggers based on recall quality; searches DBLP + Semantic Scholar, matches or creates dynamic Patterns. Default off.",
+    "enable": false,
+    "sources": ["dblp", "semantic_scholar"],
+    "max_rounds": 2,
+    "results_per_round": 10,
+    "final_top_k": 5,
+    "relevance_threshold": 0.6,
+    "recall_weight": 0.15,
+    "max_dynamic_patterns": 3,
+    "dynamic_weight_cap": 0.6
+  },
   "novelty": {
     "__comment__": "Local novelty check against nodes_paper.json (ICLR 2025) + pivot on high similarity. Default: do NOT auto-build index during run; build offline first.",
     "enable": true,
